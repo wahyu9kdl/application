@@ -1,6 +1,7 @@
 # LIVE CHAT Chat 
 
-<img src="/public/images/live-chat.ico" height="50" width="50">
+![ICON LIVE CHAT](public/images/live-chat.png)
+
 A simple green themed web chat made to learn Node.js and Network Programming<br>
 Deployed on Heroku https://live-chat.herokuapp.com/ <br>
 Safari and IE are not supported!
@@ -15,8 +16,9 @@ Safari and IE are not supported!
 
 # Preview 🔍
 
-![IMAGES LIVE CHAT](public/images/home-live-chat.png)
-![IMAGES LIVE CHAT MODE](public/images/mode-live-chat.png)
+![IMAGES LIVE CHAT](public/images/home-live-chat.jpg)
+
+![IMAGES LIVE CHAT MODE](public/images/mode-live-chat.jpg)
 
 
 # Quick Start 🚀
