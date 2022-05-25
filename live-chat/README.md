@@ -1,4 +1,4 @@
-# LIVE CHAT Chat 
+# LIVE CHAT
 
 ![ICON LIVE CHAT](public/images/live-chat.png)
 
