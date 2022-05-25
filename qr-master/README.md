@@ -1,4 +1,4 @@
-# QR_master
+# QR MASTER
 To scan, point the selected camera on a qr code or select a picture from your gallery.
 
 ![QR Master screens](screens.png)
@@ -15,3 +15,15 @@ Key Features:
 
 Created https://wahyu9kdl.github.io
 For web browsers https://wahyu9kdl.github.io/application/qr-master
+
+
+# IMAGE QR EXCAMPLE
+
+![QR Master profile](img/profile.png)
+![QR Master readme](img/readme.png)
+![QR Master awdev_qr](img/awdev_qr.png)
+![QR Master qr-master](img/qr-master.png)
+![QR Master qr-link](img/qr-link.png)
+![QR Master linkQr](img/linkQr.png)
+![QR Master saweria](img/saweria.jpg)
+![QR Master dana](img/dana.jpg)
