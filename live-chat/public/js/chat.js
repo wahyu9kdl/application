@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-undef
-const socket = io.connect('http://localhost:3000');
+const socket = io.connect('https://wahyu9kdl.github.io/application/live-chat/public/index.html# ');
 
 const message = document.getElementById('message-input');
 const sendMsg = document.getElementById('send-message');
