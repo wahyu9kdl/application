@@ -1,0 +1,948 @@
+<!--
+	"Poryofolio"
+	Original utility by:
+	https://wahyu9kdl.github.io
+	https://www.alhikmah.my.id / https://admin.alhikmah.my.id
+	https://www.awdev.eu.org / https://devoloper.awdev.eu.org/devoloper.html
+	This is the 2nd revision of the modified version by:
+	https://wahyu9kdl.medium.com
+	
+	
+	Related Plugin : 
+	https://bit.ly/39S49Ue
+	https://bit.ly/37Nuan1
+	https://bit.ly/3weJFOn
+	https://bit.ly/37Nuan1
+	https://t.co/HZJoHOSpHC
+	https://t.co/I0zjdhpTmJ
+	https://t.co/3Gd87uMiGL
+	https://bit.ly/3FTl2dh
+	https://bit.ly/3NgDUW7
+	https://bit.ly/3FTl2dh
+	https://bit.ly/3MpQuCr
+	https://bit.ly/3LoauUq
+	https://bit.ly/3wD01QQ
+	
+	
+--><!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"/> <!--<![endif]-->
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Audio JavaScript Player - Awdev</title>
+  
+  <style type="text/css">
+  /*-------------------------------------------------
+  Credits to Awdev Corporation for the inspiration
+  https://wahyu9kdl.github.io
+  --------------------------------------------------*/
+  
+  @import url('https://fonts.googleapis.com/css?family=Antic');
+  
+  body{
+  background: url( https://raw.githubusercontent.com/wahyu9kdl/wahyu9kdl.github.io/main/img/wood.png );
+  background-size: cover;
+  font-family: 'Antic', sans-serif;
+  }
+  
+  .player-wrapper{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  }
+  
+  .player{
+  background: #353535;
+  background: linear-gradient(to bottom,  #353535 0%,#1a1a1a 100%);
+  border-radius: 5px;
+  border: 1px solid #1A1A1A;
+  border-bottom: 0;
+  margin: 0 auto;
+  padding: 10px;
+  position: relative;
+  }
+  
+  .player:before{
+  position: absolute;
+  left: 2px;
+  top: 0;
+  display: inline-block;
+  content: "";
+  height: 1px;
+  border-top: 1px solid #484848;
+  width: 99%;
+  }
+  
+  .player:after{
+  display: inline-block;
+  margin: 30px auto;
+  content: "";
+  height: 10px;
+  width: 100%;
+  border-radius: 50%;
+  position: absolute;
+  bottom: -150px;
+  left: 0;
+  background-color: rgba(0,0,0, .9);
+  filter: blur(5px)
+  }
+  
+  .player__noise{
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: url(http://storage.macx.im/codepen/noisy-texture.png);
+  z-index: -1;
+  }
+  
+  .player__container{
+  background-color: #1A1A1A;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='12' viewBox='0 0 20 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 12c0-.622-.095-1.221-.27-1.785A5.982 5.982 0 0 0 10 12c1.67 0 3.182-.683 4.27-1.785A5.998 5.998 0 0 0 14 12h2a4 4 0 0 1 4-4V6c-1.67 0-3.182.683-4.27 1.785C15.905 7.22 16 6.622 16 6c0-.622-.095-1.221-.27-1.785A5.982 5.982 0 0 0 20 6V4a4 4 0 0 1-4-4h-2c0 .622.095 1.221.27 1.785A5.982 5.982 0 0 0 10 0C8.33 0 6.818.683 5.73 1.785 5.905 1.22 6 .622 6 0H4a4 4 0 0 1-4 4v2c1.67 0 3.182.683 4.27 1.785A5.998 5.998 0 0 1 4 6c0-.622.095-1.221.27-1.785A5.982 5.982 0 0 1 0 6v2a4 4 0 0 1 4 4h2zm-4 0a2 2 0 0 0-2-2v2h2zm16 0a2 2 0 0 1 2-2v2h-2zM0 2a2 2 0 0 0 2-2H0v2zm20 0a2 2 0 0 1-2-2h2v2zm-10 8a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z' fill='%2300000' fill-opacity='0.3' fill-rule='evenodd'/%3E%3C/svg%3E");
+  border-radius: 4px;
+  border-bottom: 1px solid #252525;
+  overflow: hidden;
+  }
+  
+  .song-data{
+  background: #353535;
+  background: linear-gradient(to bottom,  #282828 0%,#171717 100%);
+  box-shadow: 0 2px 3px #000;
+  border-radius: 3px;
+  border: 1px solid #000;
+  border-bottom: 0;
+  position: relative;
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  opacity: 0;
+  top: -150px;
+  padding: 4px;
+  transition: all 3s ease-out;
+  }
+  
+  .song-data.is-visible{
+  visibility: visible;
+  height: auto;
+  width: auto;
+  opacity: 1;
+  margin: 5px;
+  top: 0;
+  }
+  
+  .song-data:before{
+  position: absolute;
+  left: 0;
+  top: 1px;
+  right: 0;
+  margin: auto;
+  display: inline-block;
+  content: "";
+  height: 1px;
+  border-top: 1px solid #373737;
+  width: 99.5%;
+  }
+  
+  .song-data-container{
+  display: flex;
+  }
+  
+  .song-cover-wrap{
+  position: relative;
+  border: 5px solid #0D0D0D;
+  border-radius: 2px;
+  width: 100px;
+  height: 100px;
+  }
+  
+  .song-cover{
+  border-radius: 1px;
+  display: block;
+  width: 100px;
+  height: 100px;
+  }
+  
+  .song-cover-fake-border{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1);
+  border-radius: 1px;
+  }
+  
+  .song-meta-wrap{
+  padding: 10px;
+  margin-right: 10px;
+  width: 230px;
+  }
+  
+  .current-song-title{
+  font-family: 'Antic', sans-serif;
+  font-size: 15px;
+  margin: 0;
+  color: #fff;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 1px;
+  }
+  
+  .current-song-author{
+  font-size: 16px;
+  margin: 4px 0;
+  color: #999;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+  }
+  
+  .current-song-time{
+  font-size: 12px;
+  color: #999;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  }
+  
+  
+  .song-list{
+  position: relative;
+  list-style-type: none;
+  margin: 0;
+  padding: 10px;
+  font-size: 12px;
+  color: #999;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  transition: all .3s ease-out;
+  }
+  
+  .song-list:before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -5px;
+  width: 0;
+  height: 100%;
+  border-left: 1px solid #0D0D0D;
+  border-right: 1px solid #313131;
+  }
+  
+  .song-list__item{
+  cursor: pointer;
+  transition: color .3s ease-out;
+  
+  }
+  
+  .song-list__item:hover{
+  color: #fff;
+  }
+  
+  /* Buttons */
+  .button-bar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+  }
+  
+  .button-bar--primary > .btn{
+  animation-duration: .3s;
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  padding: 0;
+  }
+  
+  .button-bar > .is-shown:nth-child(1),
+  .button-bar > .is-shown:nth-child(2),
+  .button-bar > .is-shown:nth-child(3){
+  animation-name: fadeInLeft;
+  }
+  
+  .button-bar > .is-shown:nth-child(5),
+  .button-bar > .is-shown:nth-child(6),
+  .button-bar > .is-shown:nth-child(7){
+  animation-name: fadeInRight;
+  }
+  
+  .button-bar > .is-shown:nth-child(3),
+  .button-bar > .is-shown:nth-child(7){
+  animation-delay: .3s;
+  }
+  
+  .button-bar > .is-shown:nth-child(2),
+  .button-bar > .is-shown:nth-child(6){
+  animation-delay: 1.2s;
+  }
+  
+  .button-bar > .is-shown:nth-child(1),
+  .button-bar > .is-shown:nth-child(5){
+  animation-delay: 2.15s;
+  }
+  
+  @keyframes fadeInLeft {
+  from {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  transform: translate3d(100%, 0, 0);
+  }
+  
+  to {
+  opacity: 1;
+  height: auto;
+  width: auto;
+  visibility: visible;
+  transform: none;
+  padding: 8px 29.5px;
+  }
+  }
+  
+  @keyframes fadeInRight {
+  from {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  transform: translate3d(-100%, 0, 0);
+  }
+  
+  to {
+  opacity: 1;
+  height: auto;
+  width: auto;
+  visibility: visible;
+  transform: none;
+  padding: 8px 29.5px;
+  }
+  }
+  
+  .button-bar--secondary{
+  position: relative;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  bottom: -100px;
+  transition: all .4s ease-out;
+  }
+  
+  .button-bar--secondary.is-visible{
+  visibility: visible;
+  width: auto;
+  height: auto;
+  opacity: 1;
+  bottom: 0;
+  }
+  
+  .btn{
+  position: relative;
+  padding: 8px 29.5px;
+  cursor: pointer;
+  background: linear-gradient(to bottom, #2A2A2A 0%,#1A1A1A 100%);
+  border: 0;
+  border-top: 1px solid #0F0F0F;
+  border-left: 1px solid #0F0F0F;
+  box-shadow: 0 2px 3px #000;
+  }
+  
+  .btn:before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-top: 1px solid #2F2F2F;
+  border-left: 1px solid #2F2F2F;
+  }
+  
+  .btn:after{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url(http://storage.macx.im/codepen/noisy-texture.png );
+  }
+  
+  .btn:focus{
+  outline: 0;
+  }
+  
+  .btn .fa{
+  color: #fff;
+  font-size: 14px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  }
+  
+  .button-fake{
+  position: relative;
+  display: inline-block;
+  height: 34px;
+  width: 70px;
+  background-color: #171717;
+  }
+  
+  .button-fake:before,
+  .button-fake:after{
+  content: '';
+  position: absolute;
+  top: 0;
+  height: 36px;
+  width: 10px;
+  }
+  
+  .button-fake:before{
+  left: -6px;
+  border-bottom-left-radius: 50%;
+  border-top-left-radius: 50%;
+  background-color: #171717;
+  }
+  .button-fake:after{
+  right: -5px;
+  border-bottom-right-radius: 50%;
+  border-top-right-radius: 50%;
+  background-color: #171717;
+  z-index: 1;
+  }
+  
+  .btn--play{
+  position: relative;
+  background-color: #131313;
+  background-image: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  transition: .3s ease-out box-shadow;
+  }
+  
+  .btn--play:before{
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid #313131;
+  border-radius: 50%;
+  border-top: 0;
+  border-left: 0;
+  }
+  
+  .btn--play:after{
+  content: none;
+  }
+  
+  .btn--play .fa{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-40%,-50%);
+  }
+  
+  .btn--pause{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: -1;
+  }
+  
+  .btn--pause.is-visible{
+  z-index: 0;
+  }
+  
+  .play-btn-wrap{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  padding: 10px;
+  background-color: #1C1C1C;
+  border-radius: 50%;
+  border: 4px solid #252525;
+  box-shadow: 0 0 2px 0 #000, inset 0 1px 3px 1px rgba(0, 0, 0, .3);
+  
+  transition: .3s ease-out box-shadow;
+  z-index: 2;
+  }
+  
+  .play-btn-wrap:before{
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid #313131;
+  border-radius: 50%;
+  }
+  
+  .btn--more-controls.is-active .fa,
+  .btn--random-song.is-active .fa,
+  .btn--repeat-song.is-active .fa{
+  color: #4dafe3;
+  text-shadow: 1px 1px 0 #000;
+  }
+  
+  input[type=range] {
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+  width: 100%; /* Specific width is required for Firefox. */
+  background: transparent; /* Otherwise white in Chrome */
+  padding: 0;
+  position: relative;
+  z-index: 1;
+  }
+  
+  input[type=range]::-webkit-slider-runnable-track {
+  height: 8px;
+  cursor: pointer;
+  background: linear-gradient(to bottom, #76daf9 0%,#4dafe3 100%);
+  border: 1px solid #0C0C0C;
+  }
+  
+  
+  input[type=range]::-moz-range-track {
+  height: 8px;
+  cursor: pointer;
+  border: 1px solid #0C0C0C;
+  background-color: #141414;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, .4);
+  }
+  
+  input[type=range]::-moz-range-progress{
+  background: linear-gradient(to bottom, #76daf9 0%,#4dafe3 100%);
+  height: 8px;
+  border-right: 1px solid #0C0C0C;
+  }
+  
+  input[type=range]::-moz-focus-outer {
+  border: 0;
+  }
+  
+  /* Special styling for WebKit/Blink */
+  input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 0;
+  height: 7px;
+  width: 2px;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  background: #000;
+  cursor: pointer;
+  }
+  
+  input[type=range]::-moz-range-thumb {
+  border: 0;
+  height: 0;
+  width: 0;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  }
+  
+  
+  .input-range-wrapper{
+  height: 17px;
+  padding-right: 26.5px;
+  padding-left: 26.5px;
+  display: flex;
+  align-items: center;
+  }
+  
+  input[type="range"].input-range-volume{
+  margin-left: 10px;
+  width: 100px;
+  }
+  
+  /* Helpers */
+  .sr-only{
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+  }
+  </style>
+ 
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  </head>
+
+  <body>
+    
+    <div class="player-wrapper">
+      <div class="player" id="player">
+        <div class="player__noise"></div>
+
+        <div class="player__container">
+          <div class="song-data" id="songdata">
+            <div class="song-data-container">
+              <div class="song-cover-wrap">
+                <div class="song-cover-fake-border"></div>
+                <img alt="" id="currentSongCover" class="song-cover" src="">
+              </div>
+
+              <div class="song-meta-wrap">
+                <h1 class="current-song-title" id="currentSong"></h1>
+                <h2 class="current-song-author" id="currentSongAuthor"></h2>
+
+                <div class="current-song-time">
+                  <span id="currentSongCurrentTime"></span> <span id="currentSongTotalTime"></span>
+                </div>
+              </div>
+
+              <ul id="song-list" class="song-list"></ul>
+            </div>
+          </div>
+
+          <audio id="song"></audio>
+
+          <div class="button-bar button-bar--primary">
+
+            <button class="btn btn--more-controls" id="more-controls">
+              <span class="fa fa-cogs"></span>
+              <span class="sr-only">More options</span>
+            </button>
+
+            <button class="btn" id="backward-button">
+              <span class="fa fa-backward"></span>
+              <span class="sr-only">Backward</span>
+            </button>
+
+            <button class="btn" id="stepBackward-button">
+              <span class="fa fa-step-backward"></span>
+              <span class="sr-only">Step Backward</span>
+            </button>
+
+            <div class="button-fake">
+
+              <div class="play-btn-wrap">
+                <button class="btn btn--play" id="play-button">
+                  <span class="fa fa-play" id="play-button-icon"></span>
+                  <span class="sr-only">Play</span>
+                </button>
+
+                <button class="btn btn--play btn--pause" id="pause-button">
+                  <span class="fa fa-pause"></span>
+                  <span class="sr-only">Pause</span>
+                </button>
+              </div>
+
+            </div>
+
+            <button class="btn" id="stepForward-button">
+              <span class="fa fa-step-forward"></span>
+              <span class="sr-only">Step Forward</span>
+            </button>
+
+            <button class="btn" id="forward-button">
+              <span class="fa fa-forward"></span>
+              <span class="sr-only">Forward</span>
+            </button>
+
+            <button class="btn" id="stop-button">
+              <span class="fa fa-stop"></span>
+              <span class="sr-only">Stop</span>
+            </button>
+
+          </div>
+
+          <div class="button-bar button-bar--secondary">
+            <div class="btn input-range-wrapper">
+              <i class="fa fa-volume fa-volume-up"></i><input class="input-range-volume" type="range" id="volumeLevel" max="1" min="0" step="0.1"/>
+            </div>
+
+            <button class="btn btn--random-song" id="random-song">
+              <span class="fa fa-random"></span>
+              <span class="sr-only">Shuffle</span>
+            </button>
+
+            <button class="btn btn--repeat-song" id="repeat-song">
+              <span class="fa fa-repeat"></span>
+              <span class="sr-only">Repeat</span>
+            </button>
+
+            <div class="btn input-range-wrapper">
+              <i class="fa fa-music"></i><input class="input-range" value="0" type="range" id="songTimeRange" max="1" min="0" step="0.01"/>
+            </div>
+          </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+<script type="text/javascript">
+(function (){
+
+  const audio = document.getElementById("song");
+  const song = document.getElementById("currentSong");
+  const songCover = document.getElementById("currentSongCover");
+  const songTime = document.getElementById("currentSongTotalTime");
+  const songTimeRange = document.getElementById("songTimeRange");
+  let randomSong = false;
+  let repeatSong = false;
+  let currentSong = 0;
+
+  let songs = [
+   [
+   "http://www.thesoundarchive.com/starwars/star-wars-theme-song.mp3",
+   "John Williams",
+   "http://storage.macx.im/codepen/starwars-theme.jpg"
+   ],
+    [
+      "http://www.thesoundarchive.com/starwars/imperial_march.mp3",
+      "Darth Vader",
+      "http://storage.macx.im/codepen/starwars-imperial-march.jpg"
+    ],
+    [
+      "http://www.thesoundarchive.com/starwars/star-wars-cantina-song.mp3",
+      "Figrin D'an and the Modal Nodes",
+      "http://storage.macx.im/codepen/starwars-cantina.jpg"
+    ],
+    [
+      "http://www.thesoundarchive.com/starwars/Star-Wars-Duel-of-the-Fates.mp3",
+      "Qui-Gon Jinn feat. Obi-Wan Kenobi",
+      "http://storage.macx.im/codepen/starwars-duel-fates.jpg"
+    ],
+    [
+      "http://www.thesoundarchive.com/starwars/rebel-theme.mp3",
+      "The Alliance Fleet",
+      "http://storage.macx.im/codepen/starwars-rebel.png"
+    ]
+  ];
+
+  for (let [index, value] of songs.entries()) {
+    document.getElementById("song-list").innerHTML += `<li class="song-list__item" data-index="${index}">${cleanSongTitle(value[0])}</li>`;
+  }
+
+  function switchPlayPause() {
+    document.getElementsByClassName("btn--play")[1].classList.toggle("is-visible");
+  }
+
+  function play() {
+    if ((!audio.src && randomSong == true) || (audio.src && randomSong == true)) {
+      shuffleSongs();
+    } else if (audio.src) {
+      audio.play();
+    } else {
+      audio.src = songs[currentSong][0];
+    }
+    audio.play();
+
+    let songIndexinArr = findIndexInNestedArray(audio.src, songs);
+
+    song.textContent = cleanSongTitle(audio.src);
+    document.getElementById("currentSongAuthor").textContent = songs[songIndexinArr][1];
+    document.getElementById("currentSongCover").setAttribute("src", songs[songIndexinArr][2]);
+
+    convertDuration(song.duration);
+    switchPlayPause();
+  }
+
+  function playSong(s) {
+    currentSong = s;
+    audio.src = songs[currentSong][0];
+    play();
+  }
+
+  function pause() {
+    audio.pause();
+  }
+
+  function stop() {
+    audio.pause();
+    audio.currentTime = 0;
+  }
+
+  function forward() {
+    audio.currentTime += 10;
+  }
+
+  function backward() {
+    audio.currentTime -= 10;
+  }
+
+  function stepForward() {
+    currentSong++;
+    if (currentSong == songs.length) {
+      currentSong = 0;
+    }
+    audio.src = songs[currentSong][0];
+    play();
+  }
+
+  function stepBackward() {
+    --currentSong;
+    if (currentSong < 0) {
+      currentSong = songs.length - 1;
+    }
+    audio.src = songs[currentSong][0];
+    play();
+  }
+
+  function toggleRandom() {
+    randomSong = !randomSong;
+    return randomSong;
+  }
+
+  function toggleRepeat() {
+    audio.loop = !audio.loop;
+    return audio.loop;
+  }
+
+  function shuffleSongs() {
+    if (randomSong == true) {
+      audio.src = songs[Math.floor(Math.random() * songs.length)][0];
+    }
+  }
+
+  function cleanSongTitle(url) {
+    let title = decodeURIComponent(url);
+    let position = url.lastIndexOf("/");
+    title = title.substring(position + 1).replace(/.mp3/, "").replace(/\_|-/g, " ");
+    return title.split(" ").map(i => i[0].toUpperCase() + i.substr(1).toLowerCase()).join(" ");
+  }
+
+  function convertDuration(duration) {
+    let minutes = Math.floor(duration / 60);
+    let seconds = Math.floor(duration % 60);
+    if (seconds < 10) {
+      seconds = `0${seconds}`;
+    }
+    return `${minutes}:${seconds}`;
+  }
+
+  function changeVolume(amount) {
+    audio.volume = amount;
+  }
+
+  function changeSongProgress(value) {
+    audio.currentTime = value;
+  }
+
+  function applyActiveClass(el) {
+    el.classList.toggle("is-active");
+  }
+
+  function findIndexInNestedArray(str, arr) {
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr[i].length; j++) {
+        if (arr[i][j] === str) {
+          return [i][j];
+        }
+      }
+    }
+    return false;
+  }
+
+
+  const clickHandlers = {
+
+    "stop-button" : stop,
+
+    "backward-button" : backward,
+
+    "stepBackward-button" : stepBackward,
+
+    "forward-button" : forward,
+
+    "stepForward-button" : stepForward,
+
+    "more-controls" :  (e) => {
+      applyActiveClass(e.currentTarget);
+      document.getElementsByClassName("button-bar--secondary")[0].classList.toggle("is-visible");
+    },
+
+    "random-song" : (e) => {
+      applyActiveClass(e.currentTarget);
+      toggleRandom();
+    },
+
+    "repeat-song" : (e) => {
+      applyActiveClass(e.currentTarget);
+      toggleRepeat();
+    },
+
+    "song-list" : (e) => {
+      if (e.target && e.target.nodeName == "LI") {
+        playSong(e.target.dataset.index);
+      }
+    },
+
+    "play-button" : () => {
+      let triggerClick = 0;
+      play();
+
+      if (triggerClick == 0) { // first click
+        const hiddenButtons = document.querySelectorAll(".button-bar--primary > button");
+        for (let i = 0; i < hiddenButtons.length; i++) {
+          hiddenButtons[i].classList.add("is-shown");
+        }
+        setTimeout(() => {
+          document.getElementById("songdata").classList.add("is-visible");
+        }, 3000);
+      }
+      triggerClick++;
+    },
+
+    "pause-button" : () => {
+      pause();
+      switchPlayPause();
+    }
+
+  }
+
+  Object.keys(clickHandlers).forEach(function(key) {
+    document.getElementById(key).addEventListener("click", clickHandlers[key]);
+  });
+
+  document.getElementById("volumeLevel").addEventListener("change", (e) => {
+    changeVolume(e.currentTarget.value);
+  })
+
+  document.getElementById("songTimeRange").addEventListener("change", (e) => {
+    changeSongProgress(e.currentTarget.value);
+  })
+
+  audio.addEventListener("ended", () => {
+    this.currentTime = 0;
+    stepForward();
+  });
+
+  audio.addEventListener("timeupdate", () => {
+    document.getElementById("currentSongCurrentTime").innerHTML = convertDuration(audio.currentTime) + " / ";
+
+    songTimeRange.min = audio.startTime;
+    songTimeRange.max = audio.duration;
+    songTimeRange.value = audio.currentTime;
+  });
+
+  audio.addEventListener("loadedmetadata", () => {
+    songTime.innerHTML = convertDuration(audio.duration);
+  });
+
+})();
+</script>
+  </body>
+</html>
